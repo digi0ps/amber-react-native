@@ -8,9 +8,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "native-base": "^2.12.1",
     "react": "16.8.3",
+    "react-addons-update": "^15.6.2",
     "react-native": "0.59.2",
     "react-native-maps": "^0.23.0",
+    "react-native-router-flux": "^4.0.6",
+    "react-native-spinkit": "^1.2.0",
+    "react-native-star-rating": "^1.1.0",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-socket.io": "^1.4.0",
@@ -27,7 +32,8 @@
     "eslint": "^5.15.3",
     "jest": "^24.5.0",
     "metro-react-native-babel-preset": "^0.53.1",
-    "react-test-renderer": "16.8.3"
+    "react-test-renderer": "16.8.3",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "preset": "react-native"
