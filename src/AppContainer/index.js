@@ -1,4 +1,6 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Text } from "react-native";
 import { Router } from "react-native-router-flux";
 
 import scenes from "../routes/scenes";
