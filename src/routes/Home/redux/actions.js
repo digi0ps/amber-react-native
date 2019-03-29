@@ -1,6 +1,7 @@
 import { createAction } from 'redux-act'
 import { DEFAULT_USER_LOCATION } from './reducer'
 
+export const setStatus = createAction('home/setStatus')
 export const setUserLocation = createAction('home/setUserLocation')
 export const setSelectedLocation = createAction('home/setSelectedLocation')
 export const setAmbulanceType = createAction('home/setAmbulanceType')

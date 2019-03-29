@@ -21,6 +21,7 @@ const addDeltaToLocation = location => {
 }
 
 const defaultState = {
+    status: 'initial',
     userLocation: addDeltaToLocation(DEFAULT_USER_LOCATION),
     selectedLocation: null,
     ambulanceType: 'mini',
@@ -28,6 +29,11 @@ const defaultState = {
 }
 
 const reducer = createReducer({}, defaultState)
+
+reducer.on(actions.setStatus, (state, payload) => ({
+    ...state,
+    status: payload,
+}))
 
 reducer.on(actions.setUserLocation, (state, payload) => ({
     ...state,

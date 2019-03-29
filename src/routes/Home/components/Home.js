@@ -26,8 +26,7 @@ class Home extends React.Component {
     }
 
     render() {
-        // const { status } = this.props.booking;
-        const status = 'main'
+        const { status } = this.props
         return (
             <Container>
                 {(status !== 'pending' && (
