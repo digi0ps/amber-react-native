@@ -43,6 +43,7 @@ class Home extends React.Component {
                         <Fab onPressAction={() => null} />
                         <FooterComponent
                             ambulanceType={this.props.ambulanceType}
+                            setAmbulanceType={this.props.setAmbulanceType}
                         />
                     </View>
                 )) || (

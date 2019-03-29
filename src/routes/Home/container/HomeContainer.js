@@ -16,6 +16,7 @@ const mapActionCreators = dispatch => ({
         dispatch(acts.setSelectedLocation(location)),
     setAmbulanceType: type => dispatch(acts.setAmbulanceType(type)),
     setNoNearbyDrivers: value => dispatch(acts.setNoNearbyDrivers(value)),
+    bookAmbulance: () => dispatch(acts.bookAmbulance()),
 })
 
 export default connect(

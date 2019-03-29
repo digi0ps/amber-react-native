@@ -50,7 +50,7 @@ reducer.on(actions.setAmbulanceType, (state, payload) => ({
     ambulanceType: payload,
 }))
 
-reducer.on(actions.setAmbulanceType, (state, payload) => ({
+reducer.on(actions.setNoNearbyDrivers, (state, payload) => ({
     ...state,
     noNearbyDrivers: payload,
 }))

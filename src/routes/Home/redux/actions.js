@@ -35,3 +35,11 @@ export const handleGPSLocation = () => async (dispatch, getState) => {
         dispatch(setSelectedLocation(location))
     }
 }
+
+export const bookAmbulance = () => (dispatch, getState) => {
+    const { selectedLocation, ambulanceType } = getState()
+    console.log('Booking', selectedLocation, ambulanceType)
+    dispatch(setStatus('pending'))
+
+    // Put out request
+}
