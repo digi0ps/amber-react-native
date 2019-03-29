@@ -65,95 +65,95 @@ export function toggleSearchResultModal(payload) {
 
 //GET ADRESSES FROM GOOGLE PLACE
 
-export function getAddressPredictions() {
-  return (dispatch, store) => {
-    let userInput = store().home.resultTypes.pickUp
-      ? store().home.inputData.pickUp
-      : store().home.inputData.dropOff;
-    // RNGooglePlaces.getAutocompletePredictions(userInput, {
-    //   country: "MY"
-    // })
-    //   .then(results =>
-    //     dispatch({
-    //       type: GET_ADDRESS_PREDICTIONS,
-    //       payload: results
-    //     })
-    //   )
-    //   .catch(error => console.log(error.message));
-    dispatch({
-      type: GET_ADDRESS_PREDICTIONS,
-      payload: []
-    });
-  };
-}
+// export function getAddressPredictions() {
+//   return (dispatch, store) => {
+//     let userInput = store().home.resultTypes.pickUp
+//       ? store().home.inputData.pickUp
+//       : store().home.inputData.dropOff;
+//     // RNGooglePlaces.getAutocompletePredictions(userInput, {
+//     //   country: "MY"
+//     // })
+//     //   .then(results =>
+//     //     dispatch({
+//     //       type: GET_ADDRESS_PREDICTIONS,
+//     //       payload: results
+//     //     })
+//     //   )
+//     //   .catch(error => console.log(error.message));
+//     dispatch({
+//       type: GET_ADDRESS_PREDICTIONS,
+//       payload: []
+//     });
+//   };
+// }
 
 //get selected address
 
-export function getSelectedAddress(payload) {
-  const dummyNumbers = {
-    baseFare: 0.4,
-    timeRate: 0.14,
-    distanceRate: 0.97,
-    surge: 1
-  };
-  return (dispatch, store) => {
-    RNGooglePlaces.lookUpPlaceByID(payload)
-      .then(results => {
-        dispatch({
-          type: GET_SELECTED_ADDRESS,
-          payload: results
-        });
-      })
-      .then(() => {
-        //Get the distance and time
-        if (
-          store().home.selectedAddress.selectedPickUp &&
-          store().home.selectedAddress.selectedDropOff
-        ) {
-          request
-            .get("https://maps.googleapis.com/maps/api/distancematrix/json")
-            .query({
-              origins:
-                store().home.selectedAddress.selectedPickUp.latitude +
-                "," +
-                store().home.selectedAddress.selectedPickUp.longitude,
-              destinations:
-                store().home.selectedAddress.selectedDropOff.latitude +
-                "," +
-                store().home.selectedAddress.selectedDropOff.longitude,
-              mode: "driving",
-              key: "AIzaSyDUYbTR-3PDWPhgxjENs4yf35g2eHc641s"
-            })
-            .finish((error, res) => {
-              dispatch({
-                type: GET_DISTANCE_MATRIX,
-                payload: res.body
-              });
-            });
-        }
-        setTimeout(function() {
-          if (
-            store().home.selectedAddress.selectedPickUp &&
-            store().home.selectedAddress.selectedDropOff
-          ) {
-            const fare = calculateFare(
-              dummyNumbers.baseFare,
-              dummyNumbers.timeRate,
-              store().home.distanceMatrix.rows[0].elements[0].duration.value,
-              dummyNumbers.distanceRate,
-              store().home.distanceMatrix.rows[0].elements[0].distance.value,
-              dummyNumbers.surge
-            );
-            dispatch({
-              type: GET_FARE,
-              payload: fare
-            });
-          }
-        }, 2000);
-      })
-      .catch(error => console.log(error.message));
-  };
-}
+// export function getSelectedAddress(payload) {
+//   const dummyNumbers = {
+//     baseFare: 0.4,
+//     timeRate: 0.14,
+//     distanceRate: 0.97,
+//     surge: 1
+//   };
+//   return (dispatch, store) => {
+//     RNGooglePlaces.lookUpPlaceByID(payload)
+//       .then(results => {
+//         dispatch({
+//           type: GET_SELECTED_ADDRESS,
+//           payload: results
+//         });
+//       })
+//       .then(() => {
+//         //Get the distance and time
+//         if (
+//           store().home.selectedAddress.selectedPickUp &&
+//           store().home.selectedAddress.selectedDropOff
+//         ) {
+//           request
+//             .get("https://maps.googleapis.com/maps/api/distancematrix/json")
+//             .query({
+//               origins:
+//                 store().home.selectedAddress.selectedPickUp.latitude +
+//                 "," +
+//                 store().home.selectedAddress.selectedPickUp.longitude,
+//               destinations:
+//                 store().home.selectedAddress.selectedDropOff.latitude +
+//                 "," +
+//                 store().home.selectedAddress.selectedDropOff.longitude,
+//               mode: "driving",
+//               key: "AIzaSyDUYbTR-3PDWPhgxjENs4yf35g2eHc641s"
+//             })
+//             .finish((error, res) => {
+//               dispatch({
+//                 type: GET_DISTANCE_MATRIX,
+//                 payload: res.body
+//               });
+//             });
+//         }
+//         setTimeout(function() {
+//           if (
+//             store().home.selectedAddress.selectedPickUp &&
+//             store().home.selectedAddress.selectedDropOff
+//           ) {
+//             const fare = calculateFare(
+//               dummyNumbers.baseFare,
+//               dummyNumbers.timeRate,
+//               store().home.distanceMatrix.rows[0].elements[0].duration.value,
+//               dummyNumbers.distanceRate,
+//               store().home.distanceMatrix.rows[0].elements[0].distance.value,
+//               dummyNumbers.surge
+//             );
+//             dispatch({
+//               type: GET_FARE,
+//               payload: fare
+//             });
+//           }
+//         }, 2000);
+//       })
+//       .catch(error => console.log(error.message));
+//   };
+// }
 
 //BOOK CAR
 
@@ -203,7 +203,7 @@ export function bookCar() {
 //get nearby drivers
 
 export function getNearByDrivers() {
-  return (dispatch, store) => {
+  return (dispatch, state) => {
     request
       .get("http://localhost:3000/api/driverLocation")
       .query({

@@ -1,34 +1,23 @@
-import { connect } from "react-redux";
-import Home from "../components/Home";
-import {
-	getCurrentLocation,
-	getInputData,
-	toggleSearchResultModal,
-	getAddressPredictions,
-	getSelectedAddress,
-	bookCar,
-	getNearByDrivers
-} from "../module/home";
+import { connect } from 'react-redux'
+import Home from '../components/Home'
+import * as acts from '../redux/actions'
 
-const mapStateToProps = (state) => ({
-	region: state.home.region,
-	inputData:state.home.inputData || {},
-	resultTypes:state.home.resultTypes || {},
-	predictions:state.home.predictions ||  [],
-	selectedAddress:state.home.selectedAddress || {},
-	fare:state.home.fare,
-	booking:state.home.booking || {},
-	nearByDrivers:state.home.nearByDrivers || []
+const mapStateToProps = state => ({
+    userLocation: state.home.userLocation,
+    selectedLocation: state.home.selectedLocation,
+    ambulanceType: state.home.ambulanceType,
+    noNearbyDrivers: state.home.noNearbyDrivers,
+})
 
-});
+const mapActionCreators = dispatch => ({
+    handleGPSLocation: () => dispatch(acts.handleGPSLocation()),
+    setSelectedLocation: location =>
+        dispatch(acts.setSelectedLocation(location)),
+    setAmbulanceType: type => dispatch(acts.setAmbulanceType(type)),
+    setNoNearbyDrivers: value => dispatch(acts.setNoNearbyDrivers(value)),
+})
 
-const mapActionCreators = {
-	getCurrentLocation,
-	getInputData,
-	toggleSearchResultModal,
-	getAddressPredictions,
-	getSelectedAddress,
-	bookCar,
-	getNearByDrivers
-};
-export default connect(mapStateToProps, mapActionCreators)(Home);
+export default connect(
+    mapStateToProps,
+    mapActionCreators,
+)(Home)
