@@ -7,15 +7,15 @@ const mapStateToProps = state => ({
     userLocation: state.home.userLocation,
     selectedLocation: state.home.selectedLocation,
     ambulanceType: state.home.ambulanceType,
-    noNearbyDrivers: state.home.noNearbyDrivers,
+    nearbyDrivers: state.home.nearbyDrivers,
 })
 
 const mapActionCreators = dispatch => ({
     handleGPSLocation: () => dispatch(acts.handleGPSLocation()),
+    fetchNearbyDrivers: () => dispatch(acts.fetchNearbyDrivers()),
     setSelectedLocation: location =>
         dispatch(acts.setSelectedLocation(location)),
     setAmbulanceType: type => dispatch(acts.setAmbulanceType(type)),
-    setNoNearbyDrivers: value => dispatch(acts.setNoNearbyDrivers(value)),
     bookAmbulance: () => dispatch(acts.bookAmbulance()),
 })
 

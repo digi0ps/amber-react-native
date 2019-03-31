@@ -12,17 +12,17 @@ import Fab from './Fab'
 import FindDriver from './FindDriver'
 const taxiLogo = require('../../../assets/img/taxi_logo_white.png')
 const carMarker = require('../../../assets/img/carMarker.png')
+
 class Home extends React.Component {
     async componentDidMount() {
         await this.props.handleGPSLocation()
-        // setTimeout(function() {
-        //   rx.props.getNearByDrivers();
-        // }, 5000);
+        await this.props.fetchNearbyDrivers()
     }
+
     componentDidUpdate(prevProps, prevState) {
-        // if (this.props.booking.status === "confirmed") {
-        //   Actions.trackDriver({ type: "reset" });
-        // }
+        if (this.props.status === 'confirmed') {
+            Actions.trackDriver({ type: 'reset' })
+        }
     }
 
     render() {
@@ -37,7 +37,7 @@ class Home extends React.Component {
                             selectedLocation={this.props.selectedLocation}
                             setSelectedLocation={this.props.setSelectedLocation}
                             carMarker={carMarker}
-                            nearByDrivers={[]}
+                            nearByDrivers={this.props.nearbyDrivers}
                         />
 
                         <Fab onPressAction={() => null} />

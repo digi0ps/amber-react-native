@@ -38,12 +38,12 @@ export default class MapContainer extends PureComponent {
                         />
                     )}
 
-                    {nearByDrivers.map((marker, index) => (
+                    {nearByDrivers.map((driver, index) => (
                         <Marker
                             key={index}
                             coordinate={{
-                                latitude: marker.coordinate.coordinates[1],
-                                longitude: marker.coordinate.coordinates[0],
+                                latitude: driver.location.latitude,
+                                longitude: driver.location.longitude,
                             }}
                             image={carMarker}
                         />
