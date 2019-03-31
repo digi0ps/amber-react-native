@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
     selectedLocation: state.home.selectedLocation,
     ambulanceType: state.home.ambulanceType,
     nearbyDrivers: state.home.nearbyDrivers,
+    noNearbyDrivers: state.home.noNearbyDrivers,
 })
 
 const mapActionCreators = dispatch => ({

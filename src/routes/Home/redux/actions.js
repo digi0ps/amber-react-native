@@ -53,9 +53,36 @@ export const fetchNearbyDrivers = () => async (dispatch, getState) => {
     dispatch(setNearbyDrivers(nearbyDrivers))
 }
 
+const findDistance = (
+    { latitude: x1, longitude: y1 },
+    { latitude: x2, longitude: y2 },
+) => Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
+
 export const bookAmbulance = () => (dispatch, getState) => {
-    const { selectedLocation, ambulanceType } = getState()
-    console.log('Booking', selectedLocation, ambulanceType)
+    const { selectedLocation, ambulanceType, nearbyDrivers } = getState().home
+    if (!nearbyDrivers.length) {
+        dispatch(setNoNearbyDrivers(true))
+        return
+    } else {
+        dispatch(setNoNearbyDrivers(false))
+    }
+
+    // Find distance
+    const distance_arr = nearbyDrivers.map(driver => ({
+        driver,
+        distance: findDistance(selectedLocation, driver.location),
+    }))
+    distance_arr.sort((x, y) => x > y)
+    const nearestDriver = distance_arr[0].driver
+    console.log(nearestDriver)
+
+    const bookingInfo = {
+        pickupLocation: selectedLocation,
+        assignedDriver: nearestDriver._id,
+        user: '__default__',
+        ambulanceType,
+    }
+    console.log('booking', bookingInfo)
     dispatch(setStatus('pending'))
 
     // Put out request

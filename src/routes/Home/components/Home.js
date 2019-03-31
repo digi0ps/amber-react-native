@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ToastAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 
 import { Container } from 'native-base'
@@ -20,6 +20,9 @@ class Home extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        if (!prevProps.noNearbyDrivers && this.props.noNearbyDrivers) {
+            ToastAndroid.show('No nearby drivers found yet.', 3000)
+        }
         if (this.props.status === 'confirmed') {
             Actions.trackDriver({ type: 'reset' })
         }
@@ -40,15 +43,13 @@ class Home extends React.Component {
                             nearByDrivers={this.props.nearbyDrivers}
                         />
 
-                        <Fab onPressAction={() => null} />
+                        <Fab onPressAction={this.props.bookAmbulance} />
                         <FooterComponent
                             ambulanceType={this.props.ambulanceType}
                             setAmbulanceType={this.props.setAmbulanceType}
                         />
                     </View>
-                )) || (
-                    <FindDriver selectedAddress={this.props.selectedLocation} />
-                )}
+                )) || <FindDriver />}
             </Container>
         )
     }
