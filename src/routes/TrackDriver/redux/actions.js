@@ -7,11 +7,12 @@ export const setDistanceFromUser = createAction(
 )
 export const setDriver = createAction('trackDriver/setDriverInfo')
 
-const driverId = state => state.trackDriver.booking.driverId
+const driverId = state => state.trackDriver.booking.assignedDriver
 
 export const getDriverDetails = () => async (dispatch, getState) => {
     const id = driverId(getState())
     const response = await fetch(`${ENDPOINTS.driver}/${id}`)
     const driver = await response.json()
+    console.log(driver)
     dispatch(setDriver(driver))
 }

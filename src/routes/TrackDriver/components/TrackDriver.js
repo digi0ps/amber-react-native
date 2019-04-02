@@ -27,10 +27,9 @@ class TrackDriver extends React.Component {
             <Container>
                 <View style={{ flex: 1 }}>
                     <HeaderComponent />
-                    {this.props.userLocation && this.props.driver && (
+                    {this.props.booking && this.props.driver && (
                         <MapTrack
-                            region={this.props.userLocation}
-                            selectedAddress={this.props.selectedAddress}
+                            selectedLocation={this.props.booking.pickupLocation}
                             driverLocation={this.props.driver.location}
                             showCarMaker={true}
                             carMarker={carMarker}
@@ -45,10 +44,10 @@ class TrackDriver extends React.Component {
                     )}
                     {/* <DriverFooterProfile driverInfo={this.props.driverInfo} /> */}
 
-                    {this.props.showDriverFound && (
+                    {this.props.showDriverFound && this.props.driver && (
                         <DriverFound
-                            driverInfo={this.props.driverInfo}
-                            getDriverLocation={this.props.getDriverLocation}
+                            driver={this.props.driver}
+                            setShowDriverFound={this.props.setShowDriverFound}
                         />
                     )}
                 </View>

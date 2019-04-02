@@ -9,6 +9,8 @@ export const setAmbulanceType = createAction('home/setAmbulanceType')
 export const setNearbyDrivers = createAction('home/setNearbyDrivers')
 export const setNoNearbyDrivers = createAction('home/setNoNearbyDrivers')
 
+import * as trackerActs from '../../TrackDriver/redux/actions'
+
 const getGPSLocation = () =>
     new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
@@ -81,7 +83,6 @@ export const bookAmbulance = () => async (dispatch, getState) => {
         user: '__default__',
         ambulanceType,
     }
-    console.log('booking', bookingInfo)
     dispatch(setStatus('pending'))
 
     // Put out request
@@ -94,5 +95,6 @@ export const bookAmbulance = () => async (dispatch, getState) => {
     })
     const booking = await response.json()
     console.log(booking)
-    // dispatch(trackerActs.setBooking(booking))
+    dispatch(trackerActs.setBooking(booking))
+    dispatch(setStatus('confirmed'))
 }

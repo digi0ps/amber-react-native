@@ -24,7 +24,7 @@ class Home extends React.Component {
             ToastAndroid.show('No nearby drivers found yet.', 3000)
             return true
         }
-        if (this.props.status === 'confirmed') {
+        if (this.props.status === 'initial') {
             Actions.trackDriver({ type: 'reset' })
             return true
         }

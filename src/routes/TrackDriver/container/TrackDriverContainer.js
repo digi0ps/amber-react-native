@@ -3,8 +3,7 @@ import TrackDriver from '../components/TrackDriver'
 import * as acts from '../redux/actions'
 
 const mapStateToProps = state => ({
-    userLocation: state.home.userLocation,
-    booking: state.trackDrive.booking,
+    booking: state.trackDriver.booking,
     driver: state.trackDriver.driver || {},
     showDriverFound: state.trackDriver.showDriverFound,
     distanceFromDriver: state.trackDriver.distanceFromDriver || {},
@@ -12,6 +11,7 @@ const mapStateToProps = state => ({
 
 const mapActionCreators = dispatch => ({
     getDriverDetails: () => dispatch(acts.getDriverDetails()),
+    setShowDriverFound: value => dispatch(acts.setShowDriverFound(value)),
 })
 
 export default connect(
