@@ -20,7 +20,7 @@ export default class MapContainer extends PureComponent {
                     provider={MapView.PROVIDER_GOOGLE}
                     style={styles.map}
                     initialRegion={userLocation}
-                    region={userLocation}
+                    region={selectedLocation}
                 >
                     {selectedLocation && (
                         <Marker

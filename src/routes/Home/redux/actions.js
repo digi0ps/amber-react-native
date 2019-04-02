@@ -38,9 +38,9 @@ export const handleGPSLocation = () => async (dispatch, getState) => {
 }
 
 export const fetchNearbyDrivers = () => async (dispatch, getState) => {
-    const userLocation = getState().home.userLocation
+    const selectedLocation = getState().home.selectedLocation
     const data = {
-        ...userLocation,
+        ...selectedLocation,
     }
     const request = await fetch(ENDPOINTS.drivers, {
         method: 'POST',
@@ -58,7 +58,7 @@ const findDistance = (
     { latitude: x2, longitude: y2 },
 ) => Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 
-export const bookAmbulance = () => (dispatch, getState) => {
+export const bookAmbulance = () => async (dispatch, getState) => {
     const { selectedLocation, ambulanceType, nearbyDrivers } = getState().home
     if (!nearbyDrivers.length) {
         dispatch(setNoNearbyDrivers(true))
@@ -74,11 +74,10 @@ export const bookAmbulance = () => (dispatch, getState) => {
     }))
     distance_arr.sort((x, y) => x > y)
     const nearestDriver = distance_arr[0].driver
-    console.log(nearestDriver)
 
     const bookingInfo = {
         pickupLocation: selectedLocation,
-        assignedDriver: nearestDriver._id,
+        assignedDriver: nearestDriver,
         user: '__default__',
         ambulanceType,
     }
@@ -86,4 +85,14 @@ export const bookAmbulance = () => (dispatch, getState) => {
     dispatch(setStatus('pending'))
 
     // Put out request
+    const response = await fetch(ENDPOINTS.bookings, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingInfo),
+    })
+    const booking = await response.json()
+    console.log(booking)
+    // dispatch(trackerActs.setBooking(booking))
 }

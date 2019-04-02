@@ -16,16 +16,19 @@ const carMarker = require('../../../assets/img/carMarker.png')
 class Home extends React.Component {
     async componentDidMount() {
         await this.props.handleGPSLocation()
-        await this.props.fetchNearbyDrivers()
+        setInterval(async () => await this.props.fetchNearbyDrivers(), 3000)
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (!prevProps.noNearbyDrivers && this.props.noNearbyDrivers) {
+    shouldComponentUpdate(nextProps, nextState) {
+        if (!nextProps.noNearbyDrivers && this.props.noNearbyDrivers) {
             ToastAndroid.show('No nearby drivers found yet.', 3000)
+            return true
         }
         if (this.props.status === 'confirmed') {
             Actions.trackDriver({ type: 'reset' })
+            return true
         }
+        return true
     }
 
     render() {
