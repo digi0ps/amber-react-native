@@ -42,7 +42,10 @@ class TrackDriver extends React.Component {
                             distanceFromDriver={this.props.distanceFromDriver}
                         />
                     )}
-                    {/* <DriverFooterProfile driverInfo={this.props.driverInfo} /> */}
+
+                    {this.props.driver && (
+                        <DriverFooterProfile driverInfo={this.props.driver} />
+                    )}
 
                     {this.props.showDriverFound && this.props.driver && (
                         <DriverFound
