@@ -32,6 +32,14 @@ class Home extends React.Component {
     //     return true
     // }
 
+    // const {
+    //     userLocation,
+    //     selectedLocation,
+    //     setSelectedLocation,
+    //     carMarker,
+    //     nearByDrivers,
+    // } = this.props
+
     render() {
         const { status } = this.props
         return (

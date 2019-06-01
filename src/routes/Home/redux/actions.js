@@ -86,20 +86,64 @@ export const bookAmbulance = () => async (dispatch, getState) => {
     // } else {
     //     dispatch(setNoNearbyDrivers(false))
     // }
-    //
-    // // Find distance
+
+    // Find distance
     // const distance_arr = nearbyDrivers.map(driver => ({
     //     driver,
     //     distance: findDistance(selectedLocation, driver.location),
     // }))
     // distance_arr.sort((x, y) => x > y)
     // const nearestDriver = distance_arr[0].driver
-    //
+    const nearDri = getState().home.nearbyDrivers
+    const numPlate = nearDri[0]["number_plate"]
+    console.log(numPlate)
+
+    const nearestDriver = {
+      number_plate: numPlate,
+    }
+
+    try{
+        fetch(ENDP.book, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({nearestDriver})
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        //console.log(data)
+        //console.log(request.json())
+         //const nearbyDrivers = await request.json()
+         // console.log(nearbyDrivers.result)
+        // dispatch(setNearbyDrivers(nearbyDrivers))
+      }
+      catch(e) {
+        console.log(e)
+      }
+
+//    dispatch(setStatus('pending'))
+  // try{
+  //     fetch(ENDP.book, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       }
+  //       body: JSON.stringify(nearestDriver),
+  //     })
+  //     .then(res => res.json())
+  //     .then(json => console.log(json))
+  //
+  //   //  dispatch(trackerActs.setBooking(booking))
+  //   //  dispatch(setStatus('confirmed'))
+  //   }
+  //   catch(e) {
+  //     console.log(e) }
+
     // const bookingInfo = {
-    //     pickupLocation: selectedLocation,
-    //     assignedDriver: nearestDriver,
-    //     user: '__default__',
-    //     ambulanceType,
+    //     number_plate: {nearestDriver[0]["number_plate"]},
     // }
     // dispatch(setStatus('pending'))
     //

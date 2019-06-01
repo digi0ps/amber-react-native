@@ -15,5 +15,6 @@ export const ENDPOINTS = {
 export const BA = 'http://192.168.7.102:8080'
 
 export const ENDP = {
-  driver: `${BA}/ambulance`
+  driver: `${BA}/ambulance`,
+  book: `${BA}/ambulance/book`
 }
