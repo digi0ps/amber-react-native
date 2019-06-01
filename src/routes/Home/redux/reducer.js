@@ -3,8 +3,8 @@ import { Dimensions } from 'react-native'
 import * as actions from './actions'
 
 export const DEFAULT_USER_LOCATION = {
-    latitude: 13,
-    longitude: 80,
+    latitude: 12.93,
+    longitude: 77.61,
 }
 
 const addDeltaToLocation = location => {
@@ -24,7 +24,10 @@ const defaultState = {
     status: 'initial',
     nearbyDrivers: [],
     userLocation: addDeltaToLocation(DEFAULT_USER_LOCATION),
-    selectedLocation: null,
+    selectedLocation: addDeltaToLocation({
+      latitude: 12.92,
+      longitude: 77.62,
+    }),
     ambulanceType: 'mini',
     noNearbyDrivers: false,
 }
@@ -36,10 +39,12 @@ reducer.on(actions.setStatus, (state, payload) => ({
     status: payload,
 }))
 
-reducer.on(actions.setNearbyDrivers, (state, payload) => ({
+reducer.on(actions.setNearbyDrivers, (state, payload) => {
+  console.log(payload)
+  return({
     ...state,
     nearbyDrivers: payload,
-}))
+})})
 
 reducer.on(actions.setUserLocation, (state, payload) => ({
     ...state,

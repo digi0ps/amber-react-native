@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act'
 import { DEFAULT_USER_LOCATION } from './reducer'
-import { ENDPOINTS } from '../constants'
+import { ENDPOINTS, ENDP } from '../constants'
 
 export const setStatus = createAction('home/setStatus')
 export const setUserLocation = createAction('home/setUserLocation')
@@ -10,6 +10,8 @@ export const setNearbyDrivers = createAction('home/setNearbyDrivers')
 export const setNoNearbyDrivers = createAction('home/setNoNearbyDrivers')
 
 import * as trackerActs from '../../TrackDriver/redux/actions'
+
+import { Actions } from 'react-native-router-flux';
 
 const getGPSLocation = () =>
     new Promise((resolve, reject) => {
@@ -44,15 +46,30 @@ export const fetchNearbyDrivers = () => async (dispatch, getState) => {
     const data = {
         ...selectedLocation,
     }
-    const request = await fetch(ENDPOINTS.drivers, {
-        method: 'POST',
+    //console.log(data)
+
+try{
+    fetch(ENDP.driver, {
+        method: 'GET',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
     })
-    const nearbyDrivers = await request.json()
-    dispatch(setNearbyDrivers(nearbyDrivers))
+    .then(res => res.json())
+    .then(nearByDrivers => {
+      const data=JSON.parse(nearByDrivers.result)["data"]["driver"]
+      dispatch(setNearbyDrivers(data))
+    })
+    //console.log(data)
+    //console.log(request.json())
+     //const nearbyDrivers = await request.json()
+     // console.log(nearbyDrivers.result)
+    // dispatch(setNearbyDrivers(nearbyDrivers))
+  }
+  catch(e) {
+    console.log(e)
+  }
 }
 
 const findDistance = (
@@ -61,40 +78,41 @@ const findDistance = (
 ) => Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 
 export const bookAmbulance = () => async (dispatch, getState) => {
-    const { selectedLocation, ambulanceType, nearbyDrivers } = getState().home
-    if (!nearbyDrivers.length) {
-        dispatch(setNoNearbyDrivers(true))
-        return
-    } else {
-        dispatch(setNoNearbyDrivers(false))
-    }
 
-    // Find distance
-    const distance_arr = nearbyDrivers.map(driver => ({
-        driver,
-        distance: findDistance(selectedLocation, driver.location),
-    }))
-    distance_arr.sort((x, y) => x > y)
-    const nearestDriver = distance_arr[0].driver
-
-    const bookingInfo = {
-        pickupLocation: selectedLocation,
-        assignedDriver: nearestDriver,
-        user: '__default__',
-        ambulanceType,
-    }
-    dispatch(setStatus('pending'))
-
-    // Put out request
-    const response = await fetch(ENDPOINTS.bookings, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingInfo),
-    })
-    const booking = await response.json()
-    console.log(booking)
-    dispatch(trackerActs.setBooking(booking))
-    dispatch(setStatus('confirmed'))
+    // const { selectedLocation, ambulanceType, nearbyDrivers } = getState().home
+    // if (!nearbyDrivers.length) {
+    //     dispatch(setNoNearbyDrivers(true))
+    //     return
+    // } else {
+    //     dispatch(setNoNearbyDrivers(false))
+    // }
+    //
+    // // Find distance
+    // const distance_arr = nearbyDrivers.map(driver => ({
+    //     driver,
+    //     distance: findDistance(selectedLocation, driver.location),
+    // }))
+    // distance_arr.sort((x, y) => x > y)
+    // const nearestDriver = distance_arr[0].driver
+    //
+    // const bookingInfo = {
+    //     pickupLocation: selectedLocation,
+    //     assignedDriver: nearestDriver,
+    //     user: '__default__',
+    //     ambulanceType,
+    // }
+    // dispatch(setStatus('pending'))
+    //
+    // // Put out request
+    // const response = await fetch(ENDPOINTS.bookings, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(bookingInfo),
+    // })
+    // const booking = await response.json()
+    // console.log(booking)
+    // dispatch(trackerActs.setBooking(booking))
+    // dispatch(setStatus('confirmed'))
 }

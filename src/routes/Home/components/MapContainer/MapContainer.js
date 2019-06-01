@@ -5,6 +5,7 @@ import MapView, { Marker } from 'react-native-maps'
 import styles from './MapContainerStyles.js'
 
 export default class MapContainer extends PureComponent {
+
     render() {
         const {
             userLocation,
@@ -15,39 +16,46 @@ export default class MapContainer extends PureComponent {
         } = this.props
 
         return (
+
             <View style={styles.container}>
                 <MapView
                     provider={MapView.PROVIDER_GOOGLE}
                     style={styles.map}
                     initialRegion={userLocation}
-                    region={selectedLocation}
+                    region={userLocation}
                 >
-                    {selectedLocation && (
+                    {userLocation && (
                         <Marker
                             draggable
-                            onDragEnd={event =>
+                            /*onDragEnd={event =>
                                 setSelectedLocation(
                                     event.nativeEvent.coordinate,
                                 )
-                            }
+                            }*/
                             coordinate={{
-                                latitude: selectedLocation.latitude,
-                                longitude: selectedLocation.longitude,
+                                latitude: userLocation.latitude,
+                                longitude: userLocation.longitude,
                             }}
                             pinColor="green"
                         />
                     )}
 
-                    {nearByDrivers.map((driver, index) => (
+
+                        {nearByDrivers.map((marker) =>
                         <Marker
-                            key={index}
                             coordinate={{
-                                latitude: driver.location.latitude,
-                                longitude: driver.location.longitude,
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
                             }}
-                            image={carMarker}
+                            pinColor="blue"
+                            // image={carMarker}
                         />
-                    ))}
+                      )}
+                    {/* <Marker coordinate={{
+                        latitude: 12.93,//driver.location.latitude,
+                        longitude: 77.65,//driver.location.longitude,
+                    }}
+                    pinColor="blue" /> */}
                 </MapView>
             </View>
         )
